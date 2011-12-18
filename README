@@ -1,7 +1,7 @@
 TempTX Wireless Temperature Sensor Node
 By Nathan Chantrell http://nathan.chantrell.net
-Based on emontx code by Glyn Hudson and Trystan Lea at openenergymonitor.org
-and JeeLabs RFM12B library http://jeelabs.org/2009/02/10/rfm12b-library-for-arduino/
+
+Using JeeLabs RFM12B library http://jeelabs.org/2009/02/10/rfm12b-library-for-arduino/
 
 GNU GPL V3
 
