@@ -1,8 +1,7 @@
 TempTX Wireless Temperature Sensor Node
 By Nathan Chantrell http://nathan.chantrell.net
-
-Using JeeLabs RFM12B library http://jeelabs.org/2009/02/10/rfm12b-library-for-arduino/
-
 GNU GPL V3
 
 Hardware design at http://nathan.chantrell.net/20111102/wireless-temperature-sensor-module/
+
+All the required libraries are linked to in code comments.

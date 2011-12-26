@@ -7,10 +7,9 @@
 
 #include <OneWire.h> // http://www.pjrc.com/teensy/arduino_libraries/OneWire.zip
 #include <DallasTemperature.h> // http://download.milesburton.com/Arduino/MaximTemperature/DallasTemperature_371Beta.zip
-#include <Ports.h> // https://github.com/jcw/jeelib
-#include <RF12.h> // https://github.com/jcw/jeelib
+#include <JeeLib.h> // https://github.com/jcw/jeelib
 
-// #define DEBUG // uncomment for serial monitor debug output
+//#define DEBUG // uncomment for serial monitor debug output
 
 ISR(WDT_vect) { Sleepy::watchdogEvent(); } // interrupt handler for JeeLabs Sleepy power saving
 
@@ -19,12 +18,14 @@ ISR(WDT_vect) { Sleepy::watchdogEvent(); } // interrupt handler for JeeLabs Slee
 #define freq RF12_433MHZ // Frequency of RFM12B module
 
 #define ONE_WIRE_BUS A5 // DS18B20 Temperature sensor is connected on pin A5
+#define ONE_WIRE_POWER A4 // DS18B20 Power pin is connected on pin A4
 
 OneWire oneWire(ONE_WIRE_BUS); // Setup a oneWire instance
 
 DallasTemperature sensors(&oneWire); // Pass our oneWire reference to Dallas Temperature
 
 double temp; // Double precision variable for temperature reading
+
 
 //########################################################################################################################
 //Data Structure to be sent
@@ -49,18 +50,22 @@ void setup() {
   rf12_initialize(myNodeID,freq,network); // Initialize RFM12 with settings defined above 
   rf12_sleep(0);                          // Put the RFM12 to sleep
 
-  sensors.begin(); //start up temp sensor
+  pinMode(ONE_WIRE_POWER, OUTPUT); // set power pin for DS18B20 to output
   
 }
 
 void loop() {
 
+  digitalWrite(ONE_WIRE_POWER, HIGH); // turn DS18B20 sensor on
+  delay(1); // delay to allow sensor to turn on
+  sensors.begin(); //start up temp sensor
   sensors.requestTemperatures(); // Get the temperature
   temp=(sensors.getTempCByIndex(0));
-
-  temptx.supplyV = readVcc(); // Get supply voltage
-
+  digitalWrite(ONE_WIRE_POWER, LOW); // turn DS18B20 off
+ 
   temptx.temp = temp * 100; // Convert temperature to an integer, reversed at receiving end
+  
+  temptx.supplyV = readVcc(); // Get supply voltage
 
   rfwrite(); // Send data via RF 
   
