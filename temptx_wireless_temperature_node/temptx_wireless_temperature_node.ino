@@ -13,7 +13,7 @@
 
 ISR(WDT_vect) { Sleepy::watchdogEvent(); } // interrupt handler for JeeLabs Sleepy power saving
 
-#define myNodeID 12      // RF12 node ID in the range 1-30
+#define myNodeID 14      // RF12 node ID in the range 1-30
 #define network 210      // RF12 Network group
 #define freq RF12_433MHZ // Frequency of RFM12B module
 
@@ -25,7 +25,6 @@ OneWire oneWire(ONE_WIRE_BUS); // Setup a oneWire instance
 DallasTemperature sensors(&oneWire); // Pass our oneWire reference to Dallas Temperature
 
 double temp; // Double precision variable for temperature reading
-
 
 //########################################################################################################################
 //Data Structure to be sent
@@ -76,6 +75,7 @@ void loop() {
    Serial.println(temptx.supplyV); 
    Serial.print("Temperature: "); 
    Serial.println(temptx.temp); 
+   delay(500);
   #endif
 
   Sleepy::loseSomeTime(60000);  //JeeLabs power save function: enter low power mode for 60 seconds (valid range 16-65000 ms)
